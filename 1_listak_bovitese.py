@@ -11,3 +11,17 @@ print(nyelvek)
 print()
 
 nyelvek.insert(1, "Go")
+print(nyelvek)
+print(len(nyelvek))
+print()
+
+del nyelvek[1]
+print(nyelvek)
+print()
+
+nyelvek.remove("Python")
+print(nyelvek)
+print()
+
+nyelvek.clear()
+print(nyelvek)
