@@ -47,44 +47,34 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
         new_rect = self.rect.copy()
-        new_rect.center = self.pos
-        self.pos = pygame.Vector2(self.rect.center)  # Use Vector2 for smoother movement
+        self.pos = pygame.Vector2(self.rect.center)
         self.speed = 5
-        self.velocity = pygame.Vector2(0, 0)  # Player's velocity for smooth movement
+        self.velocity = pygame.Vector2(0, 0)
         self.pos += self.velocity
 
     def update(self, keys, map_data, camera_rect):
+        new_rect = self.rect.copy()
         if self.is_on_water(map_data, new_rect):
-            if keys[pygame.K_LEFT]:
-                return
-            elif keys[pygame.K_RIGHT]:
-                return
-            else:
-                self.velocity.x = 0
+            self.velocity.x = 0
+            self.velocity.y = 0
 
-            if keys[pygame.K_UP]:
-                return
-            elif keys[pygame.K_DOWN]:
-                return
-            else:
-                return
 
         if keys[pygame.K_LEFT]:
             self.velocity.x = -self.speed
         elif keys[pygame.K_RIGHT]:
             self.velocity.x = self.speed
         else:
-            self.velocity.x = 0  # Stop horizontal movement if no key is pressed
+            self.velocity.x = 0
 
         if keys[pygame.K_UP]:
             self.velocity.y = -self.speed
         elif keys[pygame.K_DOWN]:
             self.velocity.y = self.speed
         else:
-            self.velocity.y = 0  # Stop vertical movement if no key is pressed
+            self.velocity.y = 0
 
-        # Update the player's position (convert from Vector2 back to int)
-        self.rect.center = self.pos
+        self.pos += self.velocity
+        self.rect.center = (int(self.pos.x), int(self.pos.y))
 
         # Prevent player from moving out of bounds
         self.rect.x = max(0, min(self.rect.x, SCREEN_WIDTH - PLAYER_SIZE))
